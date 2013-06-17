@@ -81,7 +81,7 @@ var MiniProfiler = (function () {
                 }
                 mPt.flush();
             }
-            
+
             if (id == options.currentId) {
 
                 clientPerformance = getClientPerformance();
@@ -91,7 +91,7 @@ var MiniProfiler = (function () {
                     var copy = { navigation: {}, timing: {} };
 
                     var timing = $.extend({}, clientPerformance.timing);
-                    
+
                     for (p in timing) {
                         if (timing.hasOwnProperty(p) && !$.isFunction(timing[p])) {
                             copy.timing[p] = timing[p];
@@ -102,9 +102,9 @@ var MiniProfiler = (function () {
                     }
                     clientPerformance = copy;
 
-                    // hack to add chrome timings 
+                    // hack to add chrome timings
                     if (window.chrome && window.chrome.loadTimes) {
-                      var chromeTimes = window.chrome.loadTimes(); 
+                      var chromeTimes = window.chrome.loadTimes();
                       if (chromeTimes.firstPaintTime) {
                         clientPerformance.timing["First Paint Time"] = Math.round(chromeTimes.firstPaintTime * 1000);
                       }
@@ -461,7 +461,7 @@ var MiniProfiler = (function () {
 
         if (jQuery && jQuery(document).ajaxStart)
             jQuery(document).ajaxStart(function () { ajaxStartTime = new Date(); });
-        
+
         // fetch results after ASP Ajax calls
         if (typeof (Sys) != 'undefined' && typeof (Sys.WebForms) != 'undefined' && typeof (Sys.WebForms.PageRequestManager) != 'undefined') {
             // Get the instance of PageRequestManager.
@@ -481,7 +481,7 @@ var MiniProfiler = (function () {
             });
         }
 
-        // more Asp.Net callbacks 
+        // more Asp.Net callbacks
         if (typeof (WebForm_ExecuteCallback) == "function") {
             WebForm_ExecuteCallback = (function (callbackObject) {
                 // Store original function
@@ -660,11 +660,11 @@ var MiniProfiler = (function () {
             }
             if (jQueryVersion && (parseInt(jQueryVersion[0]) == 2) || (parseInt(jQueryVersion[0]) < 2 && parseInt(jQueryVersion[1]) >= 7)) {
                 MiniProfiler.jQuery = $ = jQuery;
-                $(deferInit);
+                deferInit();
             } else {
                 load(options.path + "jquery.1.7.1.js?v=" + options.version, function() {
                     MiniProfiler.jQuery = $ = jQuery.noConflict(true);
-                    $(deferInit);
+                    deferInit();
                 });
             }
         },
@@ -710,7 +710,7 @@ var MiniProfiler = (function () {
         getClientTimings: function (clientTimings) {
             var list = [];
             var t;
-            
+
             if (!clientTimings.Timings) return [];
 
             for (var i = 0; i < clientTimings.Timings.length; i++) {
